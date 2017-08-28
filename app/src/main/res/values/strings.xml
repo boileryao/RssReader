@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">RssReader</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="nav_main_description">一个森破、乃义务的 RSS 阅读工具</string>
+    <string name="nav_main_title">香港记者日报社</string>
+    <string name="nav_main_header_content_description">自定义头像</string>
+    <string name="menu_share">分享</string>
+    <string name="menu_about">关于</string>
+    <string name="menu_communication">沟通与交流</string>
+    <string name="menu_add">添加</string>
+    <string name="menu_subscribe">订阅</string>
+    <string name="menu_collection">收藏</string>
+    <string name="menu_settings">设置</string>
+</resources>
