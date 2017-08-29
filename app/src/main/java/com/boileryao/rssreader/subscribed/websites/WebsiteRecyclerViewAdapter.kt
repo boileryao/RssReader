@@ -48,9 +48,6 @@ class WebsiteRecyclerViewAdapter(private val values: MutableMap<Website, List<Ar
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values.keys.elementAt(position)
-        holder.view.setOnClickListener {
-            listener?.onWebsiteListFragmentInteraction(item to values[item])
-        }
 
         holder.item = item
         holder.title.text = item.title

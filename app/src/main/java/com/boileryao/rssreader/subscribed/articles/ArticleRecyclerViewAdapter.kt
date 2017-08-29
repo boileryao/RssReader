@@ -2,7 +2,6 @@ package com.boileryao.rssreader.subscribed.articles
 
 import android.support.v7.widget.RecyclerView
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,11 +46,6 @@ class ArticleRecyclerViewAdapter(private val values: MutableList<Article>
         holder.title.text = item.title
         holder.description.text = Html.fromHtml(item.description)
         holder.url.text = item.url
-
-        holder.view.setOnClickListener {
-            Log.d("TAG", "Click Article, adapter click listener")
-            listener?.onListFragmentInteraction(holder.item!!)
-        }
     }
 
     override fun getItemCount(): Int {
