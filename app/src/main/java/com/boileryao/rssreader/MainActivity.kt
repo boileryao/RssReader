@@ -11,6 +11,7 @@ import com.boileryao.rssreader.bean.Article
 import com.boileryao.rssreader.bean.Website
 import com.boileryao.rssreader.subscribed.articles.ArticlesFragment
 import com.boileryao.rssreader.subscribed.websites.SubscribedFragment
+import com.boileryao.rssreader.util.database.WebsitesDbHelper
 import com.boileryao.rssreader.util.replaceMainFragmentTo
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -22,13 +23,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         , SubscribedFragment.OnWebsiteListInteraction {
     val TAG = "MainActivity"
 
-    private val websiteUrls = listOf(
-            URL("http://news.qq.com/newsgn/rss_newsgn.xml"), // OK
-            URL("http://blog.boileryao.com/atom.xml") // OK
-//            URL("http://www.people.com.cn/rss/finance.xml"), // OK
-//            URL("https://www.zhihu.com/rss"), // OK
-//            URL("http://blog.sina.com.cn/rss/1286528122.xml") // OK, msra
-    )
+    private lateinit var websiteUrls: List<URL>
 
     override fun onWebsiteListFragmentInteraction(item: Pair<Website, List<Article>?>) {
         // prepare Website Articles Fragment
@@ -37,6 +32,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         bundle.putSerializable(ArticlesFragment.ARG_ARTICLE_LIST, item.second as Serializable)
         articlesFragment.arguments = bundle
 
+        websiteUrls = WebsitesDbHelper.getInstance(this).all().map { URL(it.url) }
         fragmentManager replaceMainFragmentTo articlesFragment
     }
 
