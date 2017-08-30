@@ -1,8 +1,8 @@
 package com.boileryao.rssreader.subscribed.websites
 
-import android.app.Fragment
 import android.content.Context
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -11,9 +11,9 @@ import android.view.ViewGroup
 import com.boileryao.rssreader.R
 import com.boileryao.rssreader.bean.Article
 import com.boileryao.rssreader.bean.Website
-import com.boileryao.rssreader.util.recyclerview.ClickListener
 import com.boileryao.rssreader.subscribed.NetworkTask
 import com.boileryao.rssreader.subscribed.OnResultListener
+import com.boileryao.rssreader.util.recyclerview.ClickListener
 import com.boileryao.rssreader.util.recyclerview.RecyclerTouchListener
 
 /**

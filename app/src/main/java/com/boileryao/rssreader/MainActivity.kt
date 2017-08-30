@@ -28,12 +28,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onWebsiteListFragmentInteraction(item: Pair<Website, List<Article>?>) {
         // prepare Website Articles Fragment
         val articlesFragment = ArticlesFragment.newInstance()
-        val bundle = Bundle()
-        bundle.putSerializable(ArticlesFragment.ARG_ARTICLE_LIST, item.second as Serializable)
-        articlesFragment.arguments = bundle
-
-        websiteUrls = WebsitesDbHelper.getInstance(this).all().map { URL(it.url) }
-        fragmentManager replaceMainFragmentTo articlesFragment
+        articlesFragment.arguments
+                .putSerializable(ArticlesFragment.ARG_ARTICLE_LIST, item.second as Serializable)
+        supportFragmentManager replaceMainFragmentTo articlesFragment
     }
 
 
@@ -48,15 +45,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
         nav_view.setNavigationItemSelectedListener(this)
 
+        websiteUrls = WebsitesDbHelper.getInstance(this).all().map { URL(it.url) }
+
         // prepare Subscribed Websites Fragment
         val subscribedFragment = SubscribedFragment.newInstance()
-        val bundle = Bundle(1)
-        bundle.putSerializable(SubscribedFragment.ARG_WEBSITE_LIST
-                , websiteUrls as Serializable)
-        subscribedFragment.arguments = bundle
+        subscribedFragment.arguments
+                .putSerializable(SubscribedFragment.ARG_WEBSITE_LIST, websiteUrls as Serializable)
 
-        fragmentManager replaceMainFragmentTo subscribedFragment
-
+        supportFragmentManager replaceMainFragmentTo subscribedFragment
     }
 
     override fun onBackPressed() {

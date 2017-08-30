@@ -37,7 +37,7 @@ class Website(entry: SyndFeed?) : Serializable {
     }
 
     override fun toString(): String {
-        return "Article: $title, $description, $url, $author"
+        return "Website: $title, $description, $url, $author"
     }
 
     companion object {
