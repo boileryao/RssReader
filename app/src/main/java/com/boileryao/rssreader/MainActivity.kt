@@ -12,6 +12,7 @@ import com.boileryao.rssreader.bean.Website
 import com.boileryao.rssreader.subscribed.articles.ArticlesFragment
 import com.boileryao.rssreader.subscribed.websites.SubscribedFragment
 import com.boileryao.rssreader.util.database.WebsitesDbHelper
+import com.boileryao.rssreader.util.handleMenuItemClick
 import com.boileryao.rssreader.util.replaceMainFragmentTo
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -76,25 +77,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.nav_add -> {
-                // add new source
-            }
-            R.id.nav_collection -> {
-
-            }
-            R.id.nav_subscribe -> {
-//                fragmentManager replaceMainFragmentTo SubscribedFragment()
-            }
-            R.id.nav_settings -> {
-
-            }
-            R.id.nav_share, R.id.nav_about -> {
-                // share
-            }
+        if (handleMenuItemClick(item)) {  //the boolean is just a flag for closing drawer
+            drawer_layout.closeDrawer(GravityCompat.START)
         }
-
-        drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
 }

@@ -15,4 +15,8 @@
     <string name="menu_subscribe">订阅</string>
     <string name="menu_collection">收藏</string>
     <string name="menu_settings">设置</string>
+    <string name="hint_rss_url">RSS地址 (eg. http://blog.boileryao.com/atom.xml)</string>
+    <string name="hint_rss_title">标题 (eg. 奔跑的大锅炉)</string>
+    <string name="hint_rss_description">描述 (可选)</string>
+    <string name="hint_add_rss_source">添加一个源到收藏</string>
 </resources>
