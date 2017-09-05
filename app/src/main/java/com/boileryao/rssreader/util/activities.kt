@@ -39,13 +39,16 @@ fun MainActivity.handleMenuItemClick(item: MenuItem): Boolean {
 
             //auto-fill rss-like url
             val clipManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = clipManager.primaryClip
-            if (clip.description.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
-                val text = clip.getItemAt(0).text
-                val isUrl = text.endsWith(".xml")
-                        || text.contains("/") && (text.contains("rss") || text.contains("feed"))
-                if (isUrl) {
-                    url.setText(text)
+            if (clipManager.hasPrimaryClip()) {
+                val clip = clipManager.primaryClip
+
+                if (clip.description.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+                    val text = clip.getItemAt(0).text
+                    val isUrl = text.endsWith(".xml")
+                            || text.contains("/") && (text.contains("rss") || text.contains("feed"))
+                    if (isUrl) {
+                        url.setText(text)
+                    }
                 }
             }
 
