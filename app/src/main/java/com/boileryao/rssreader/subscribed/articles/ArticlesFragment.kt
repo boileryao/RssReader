@@ -44,7 +44,7 @@ class ArticlesFragment : Fragment() {
         if (view is RecyclerView) {
             val context = view.context
             view.layoutManager = LinearLayoutManager(context)
-            adapter = ArticleRecyclerViewAdapter(articleList, listener)
+            adapter = ArticleRecyclerViewAdapter(articleList)
             view.adapter = adapter
             view.addOnItemTouchListener(RecyclerTouchListener(activity, view,
                     ClickListener { _, position ->

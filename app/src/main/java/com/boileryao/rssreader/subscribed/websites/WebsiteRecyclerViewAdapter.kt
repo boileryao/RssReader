@@ -15,17 +15,28 @@ import com.boileryao.rssreader.subscribed.websites.SubscribedFragment.OnWebsiteL
  * [RecyclerView.Adapter] that can display a [Article] and makes a call to the
  * specified [OnWebsiteListInteraction].
  */
-class WebsiteRecyclerViewAdapter(private val values: MutableMap<Website, List<Article>>
-                                 , private val listener: OnWebsiteListInteraction?)
+class WebsiteRecyclerViewAdapter(private val values: MutableMap<Website, List<Article>>)
     : RecyclerView.Adapter<WebsiteRecyclerViewAdapter.ViewHolder>() {
 
     fun load(data: Map<Website, List<Article>>?) {
         if (data == null || data.isEmpty()) {
             return
         }
+        val filtered = values.filterKeys { !data.contains(it.url) }
         values.clear()
+        values.putAll(filtered)
         values.putAll(data)
         notifyDataSetChanged()
+    }
+
+    private fun Map<Website, List<Article>>.contains(url: String): Boolean {
+        var contains = false
+        forEach {
+            if (it.key.url == url) {
+                contains = true
+            }
+        }
+        return contains
     }
 
 

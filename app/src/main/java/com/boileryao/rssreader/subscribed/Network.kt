@@ -16,15 +16,19 @@ import java.net.URL
 class NetworkTask : AsyncTask<Any, Void, Map<Website, List<Article>>>() {
     private lateinit var listener: OnResultListener
     override fun doInBackground(vararg params: Any?): Map<Website, List<Article>>? {
-        val urls = params[0] as List<*>
+        val websites = params[0] as List<*>
         listener = params[1] as OnResultListener
         val result = mutableMapOf<Website, List<Article>>()
 
-        urls.forEach {
+        websites.forEach {
             try {
                 val input = SyndFeedInput()
-                val feed = input.build(XmlReader(it as URL))
-                result.put(Website(feed), feed.entries.map(::Article))
+                val url = URL((it as Website).url)
+                val feed = input.build(XmlReader(url))
+                val website = Website(feed)
+
+                website.url = it.url
+                result.put(website, feed.entries.map(::Article))
             } catch (e: Exception) {
                 e.printStackTrace()
             }

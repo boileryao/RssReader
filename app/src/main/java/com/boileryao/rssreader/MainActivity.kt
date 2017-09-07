@@ -17,16 +17,17 @@ import com.boileryao.rssreader.util.replaceMainFragmentTo
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import java.io.Serializable
-import java.net.URL
-
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
         , SubscribedFragment.OnWebsiteListInteraction {
     val TAG = "MainActivity"
 
-    private lateinit var websiteUrls: List<URL>
+    private lateinit var websiteList: List<Website>
 
     override fun onWebsiteListFragmentInteraction(item: Pair<Website, List<Article>?>) {
+        if (item.second == null) {
+            return
+        }
         // prepare Website Articles Fragment
         val articlesFragment = ArticlesFragment.newInstance()
         articlesFragment.arguments
@@ -46,12 +47,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
         nav_view.setNavigationItemSelectedListener(this)
 
-        websiteUrls = WebsitesDbHelper.getInstance(this).all().map { URL(it.url) }
+        websiteList = WebsitesDbHelper.getInstance(this).all()
 
         // prepare Subscribed Websites Fragment
         val subscribedFragment = SubscribedFragment.newInstance()
         subscribedFragment.arguments
-                .putSerializable(SubscribedFragment.ARG_WEBSITE_LIST, websiteUrls as Serializable)
+                .putSerializable(SubscribedFragment.ARG_WEBSITE_LIST, websiteList as Serializable)
 
         supportFragmentManager replaceMainFragmentTo subscribedFragment
     }

@@ -41,6 +41,7 @@ class WebsitesDbHelper(val context: Context) {
                 .query(TABLE_NAME, null, null, null, null, null, null)
         if (cursor.moveToFirst()) {
             val indexUrl = cursor.getColumnIndex(COL_URL)
+            val indexLink = cursor.getColumnIndex(COL_LINK)
             val indexTitle = cursor.getColumnIndex(COL_TITLE)
             val indexInsertTime = cursor.getColumnIndex(COL_INSERT_TIME)
             val indexDescription = cursor.getColumnIndex(COL_DESCRIPTION)
@@ -49,7 +50,8 @@ class WebsitesDbHelper(val context: Context) {
                 list.add(Website(
                         cursor.getString(indexTitle),
                         cursor.getString(indexDescription),
-                        cursor.getString(indexUrl)
+                        cursor.getString(indexUrl),
+                        cursor.getString(indexLink)
                 ))
             } while (cursor.moveToNext())
         }
@@ -62,6 +64,7 @@ class WebsitesDbHelper(val context: Context) {
         val value = ContentValues()
         value.put(COL_TITLE, website.title)
         value.put(COL_URL, website.url)
+        value.put(COL_LINK, website.link)
         value.put(COL_DESCRIPTION, website.description)
         value.put(COL_INSERT_TIME, System.currentTimeMillis())
 
@@ -85,13 +88,14 @@ class WebsitesDbHelper(val context: Context) {
     companion object {
         val TABLE_NAME = "websites"
         val COL_URL = "url"  // primary key
+        val COL_LINK = "link"
         val COL_TITLE = "title"
         val COL_INSERT_TIME = "insert_time"
         val COL_DESCRIPTION = "description"
 
         val CREATION =
                 "CREATE TABLE $TABLE_NAME($COL_URL text primary key, " +
-                        "$COL_INSERT_TIME long, " +
+                        "$COL_INSERT_TIME long, " + "$COL_LINK text, " +
                         "$COL_TITLE text, $COL_DESCRIPTION text);"
 
         @SuppressLint("StaticFieldLeak")

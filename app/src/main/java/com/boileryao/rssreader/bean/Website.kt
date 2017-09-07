@@ -11,14 +11,15 @@ import java.io.Serializable
 class Website(entry: SyndFeed?) : Serializable {
     var title = unknown
     var description = unknown
-    var url = unknown
+    var url = unknown  // url to request
+    var link = unknown  // url of the site to read
     var author = unknown
 
     init {
         if (entry != null) {
             title = entry.title
             description = entry.description.replace("<img.+?>".toRegex(), "")
-            url = entry.link
+            link = entry.link
             author =
                     if (entry.authors != null && entry.authors.size > 0) entry.authors[0].name
                     else entry.author ?: ""
@@ -26,10 +27,11 @@ class Website(entry: SyndFeed?) : Serializable {
     }
 
 
-    constructor(title: String, description: String, url: String) : this(null) {
+    constructor(title: String, description: String, url: String, link: String = url) : this(null) {
         this.title = title
         this.description = description
         this.url = url
+        this.link = link
     }
 
     constructor(url: String) : this(null) {
@@ -38,6 +40,10 @@ class Website(entry: SyndFeed?) : Serializable {
 
     override fun toString(): String {
         return "Website: $title, $description, $url, $author"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return url == (other as Website).url
     }
 
     companion object {

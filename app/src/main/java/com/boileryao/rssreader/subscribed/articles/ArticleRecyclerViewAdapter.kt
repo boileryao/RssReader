@@ -13,8 +13,7 @@ import com.boileryao.rssreader.bean.Article
  * [RecyclerView.Adapter] that can display a [Article] and makes a call to the
  * specified OnWebsiteListInteraction.
  */
-class ArticleRecyclerViewAdapter(private val values: MutableList<Article>
-                                 , private val listener: ArticlesFragment.OnListFragmentInteractionListener?)
+class ArticleRecyclerViewAdapter(private val values: MutableList<Article>)
     : RecyclerView.Adapter<ArticleRecyclerViewAdapter.ViewHolder>() {
 
     fun load(data: List<Article>?) {

@@ -35,11 +35,17 @@ class SubscribedFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        adapter = WebsiteRecyclerViewAdapter(mutableMapOf(), listener)
-
+        adapter = WebsiteRecyclerViewAdapter(mutableMapOf())
         if (arguments != null) {
             val tmp = arguments.get(ARG_WEBSITE_LIST)
             if (tmp is List<*>) {
+                // compose data from db and show instantly
+                val map = mutableMapOf<Website, List<Article>>()
+                val emptyList = listOf<Article>()
+                tmp.map { if (it is Website) map[it] = emptyList }
+                adapter.load(map)
+
+                // request more info using network
                 NetworkTask().execute(tmp, object : OnResultListener {
                     override fun action(data: Map<Website, List<Article>>?) {
                         adapter.load(data)

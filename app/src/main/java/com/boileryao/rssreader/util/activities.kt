@@ -58,7 +58,7 @@ fun MainActivity.handleMenuItemClick(item: MenuItem): Boolean {
                         try {
                             URL(website.url)
                             if (website.title.isEmpty()) {
-                                website.title = website.url.substringBefore("/")
+                                website.title = website.url.substringBeforeLast("/")
                             }
                             WebsitesDbHelper.getInstance(applicationContext).insert(website)
                             Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT).show()
