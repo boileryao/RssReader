@@ -3,6 +3,7 @@ package com.boileryao.rssreader.util
 import android.content.ClipDescription
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.support.design.widget.TextInputEditText
 import android.support.v7.app.AlertDialog
 import android.text.Editable
@@ -13,6 +14,7 @@ import android.view.View
 import android.widget.Toast
 import com.boileryao.rssreader.MainActivity
 import com.boileryao.rssreader.R
+import com.boileryao.rssreader.SettingsActivity
 import com.boileryao.rssreader.bean.Website
 import com.boileryao.rssreader.util.database.WebsitesDbHelper
 import java.net.URL
@@ -75,7 +77,8 @@ fun MainActivity.handleMenuItemClick(item: MenuItem): Boolean {
             //todo place the Subscribed Fragment
         }
         R.id.nav_settings -> {
-            //todo
+            val settingsIntent = Intent(this, SettingsActivity::class.java)
+            startActivity(settingsIntent)
         }
         R.id.nav_share -> {
             //todo share

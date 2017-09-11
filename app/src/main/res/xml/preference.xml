@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="网络与更新">
+        <CheckBoxPreference
+            android:id="@+id/wifi_only"
+            android:title="仅WiFi"/>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:id="@+id/refresh_all_on_startup"
+            android:title="启动时自动刷新所有源"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="添加源">
+        <CheckBoxPreference
+            android:id="@+id/check_clipboard"
+            android:defaultValue="true"
+            android:title="使用剪贴板的信息"/>
+
+        <EditTextPreference
+            android:id="@+id/url_regex"
+            android:defaultValue="https?://.*"
+            android:title="自定义匹配URL的正则表达式"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="反馈与帮助">
+        <Preference android:title="反馈">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/boileryao/rssreader/issues/new"/>
+        </Preference>
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,5 +1,6 @@
 package com.boileryao.rssreader
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -72,7 +73,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> {
+                val startSettingIntent = Intent(this, SettingsActivity::class.java)
+                startActivity(startSettingIntent)
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

@@ -19,4 +19,5 @@
     <string name="hint_rss_title">标题 (eg. 奔跑的大锅炉)</string>
     <string name="hint_rss_description">描述 (可选)</string>
     <string name="hint_add_rss_source">添加一个源到收藏</string>
+    <string name="settings">设置</string>
 </resources>
