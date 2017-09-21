@@ -60,19 +60,19 @@ class WebsitesDbHelper(val context: Context) {
         return list
     }
 
-    fun insert(website: Website) {
-        val value = ContentValues()
-        value.put(COL_TITLE, website.title)
-        value.put(COL_URL, website.url)
-        value.put(COL_LINK, website.link)
-        value.put(COL_DESCRIPTION, website.description)
-        value.put(COL_INSERT_TIME, System.currentTimeMillis())
-
-        try {
+    fun insert(website: Website): Boolean {
+        val value = website.toContentValue()
+        return try {
             sqliteHelper.writableDatabase.insert(TABLE_NAME, "", value)
+            true
         } catch (e: Exception) {
             Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+            false
         }
+    }
+
+    fun update(website: Website) {
+
     }
 
     private fun isEmpty(): Boolean {
@@ -81,7 +81,16 @@ class WebsitesDbHelper(val context: Context) {
         Log.e("TAG", "Table Website is empty: $isEmpty")
         cursor.close()
         return isEmpty
+    }
 
+    private fun Website.toContentValue(): ContentValues {
+        val value = ContentValues()
+        value.put(COL_TITLE, title)
+        value.put(COL_URL, url)
+        value.put(COL_LINK, link)
+        value.put(COL_DESCRIPTION, description)
+        value.put(COL_INSERT_TIME, System.currentTimeMillis())
+        return value
     }
 
 

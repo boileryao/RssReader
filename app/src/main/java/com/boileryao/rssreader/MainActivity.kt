@@ -2,17 +2,21 @@ package com.boileryao.rssreader
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
 import com.boileryao.rssreader.bean.Article
 import com.boileryao.rssreader.bean.Website
 import com.boileryao.rssreader.subscribed.articles.ArticlesFragment
+import com.boileryao.rssreader.subscribed.websites.AddSourceDialog
 import com.boileryao.rssreader.subscribed.websites.SubscribedFragment
-import com.boileryao.rssreader.util.database.WebsitesDbHelper
 import com.boileryao.rssreader.util.handleMenuItemClick
 import com.boileryao.rssreader.util.replaceMainFragmentTo
 import kotlinx.android.synthetic.main.activity_main.*
@@ -22,8 +26,6 @@ import java.io.Serializable
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
         , SubscribedFragment.OnWebsiteListInteraction {
     val TAG = "MainActivity"
-
-    private lateinit var websiteList: List<Website>
 
     override fun onWebsiteListFragmentInteraction(item: Pair<Website, List<Article>?>) {
         if (item.second == null) {
@@ -48,21 +50,31 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
         nav_view.setNavigationItemSelectedListener(this)
 
-        websiteList = WebsitesDbHelper.getInstance(this).all()
+        val fab = findViewById<View>(R.id.fab) as FloatingActionButton
+        fab.setOnClickListener { AddSourceDialog.show(this) }
 
         // prepare Subscribed Websites Fragment
         val subscribedFragment = SubscribedFragment.newInstance()
-        subscribedFragment.arguments
-                .putSerializable(SubscribedFragment.ARG_WEBSITE_LIST, websiteList as Serializable)
 
-        supportFragmentManager replaceMainFragmentTo subscribedFragment
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.main_fragment, subscribedFragment).commit()
     }
 
+    var lastBackPress = 0L
     override fun onBackPressed() {
+        Log.d(TAG, supportFragmentManager.backStackEntryCount.toString())
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
+            drawer_layout.closeDrawer(GravityCompat.START)  // dismiss draw
+        } else if (supportFragmentManager.backStackEntryCount > 0) {
+            super.onBackPressed()  // pop up stack
+        } else {  // SubscribeFragment(MAIN), double click to exit
+            val curr = System.currentTimeMillis()
+            if (curr - lastBackPress > 2000) {  // 2 seconds
+                Toast.makeText(this, "再次点击退出", Toast.LENGTH_SHORT).show()
+            } else {
+                super.onBackPressed()
+            }
+            lastBackPress = curr
         }
     }
 

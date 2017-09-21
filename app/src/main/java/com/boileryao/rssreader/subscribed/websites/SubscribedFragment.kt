@@ -13,6 +13,7 @@ import com.boileryao.rssreader.bean.Article
 import com.boileryao.rssreader.bean.Website
 import com.boileryao.rssreader.subscribed.NetworkTask
 import com.boileryao.rssreader.subscribed.OnResultListener
+import com.boileryao.rssreader.util.database.WebsitesDbHelper
 import com.boileryao.rssreader.util.recyclerview.ClickListener
 import com.boileryao.rssreader.util.recyclerview.RecyclerTouchListener
 
@@ -30,29 +31,25 @@ import com.boileryao.rssreader.util.recyclerview.RecyclerTouchListener
 class SubscribedFragment : Fragment() {
     private var listener: OnWebsiteListInteraction? = null
     private lateinit var adapter: WebsiteRecyclerViewAdapter
+    private lateinit var websites: List<Website>
+    private val map = mutableMapOf<Website, List<Article>>()
 
-    //fixme
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        websites = WebsitesDbHelper.getInstance(context).all()
         adapter = WebsiteRecyclerViewAdapter(mutableMapOf())
-        if (arguments != null) {
-            val tmp = arguments.get(ARG_WEBSITE_LIST)
-            if (tmp is List<*>) {
-                // compose data from db and show instantly
-                val map = mutableMapOf<Website, List<Article>>()
-                val emptyList = listOf<Article>()
-                tmp.map { if (it is Website) map[it] = emptyList }
-                adapter.load(map)
 
-                // request more info using network
-                NetworkTask().execute(tmp, object : OnResultListener {
-                    override fun action(data: Map<Website, List<Article>>?) {
-                        adapter.load(data)
-                    }
-                })
+        syncWithDatabase()
+
+        // request more info using network
+        NetworkTask().execute(websites, object : OnResultListener {
+            override fun action(data: Map<Website, List<Article>>?) {
+                adapter.load(data)
+                // todo notify db
             }
-        }
+        })
+
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -65,11 +62,24 @@ class SubscribedFragment : Fragment() {
             view.layoutManager = LinearLayoutManager(context)
             view.adapter = adapter
             view.addOnItemTouchListener(RecyclerTouchListener(activity, view,
-                    ClickListener { _, position ->
-                        listener?.onWebsiteListFragmentInteraction(adapter.getItem(position))
+                    object : ClickListener {
+                        override fun onClick(view: View?, position: Int) {
+                            listener?.onWebsiteListFragmentInteraction(adapter.getItem(position))
+                        }
+
+                        override fun onLongClick(view: View?, position: Int) {
+                            // todo
+                        }
                     }))
         }
         return view
+    }
+
+    fun syncWithDatabase() {
+        // compose data from db and show instantly
+        val emptyList = listOf<Article>()
+        websites.forEach { map[it] = emptyList }
+        adapter.load(map)
     }
 
 
@@ -99,13 +109,18 @@ class SubscribedFragment : Fragment() {
     }
 
     companion object {
-        internal val ARG_WEBSITE_LIST = "website-list"
+        var instances = mutableListOf<SubscribedFragment>()
 
         fun newInstance(): SubscribedFragment {
             val fragment = SubscribedFragment()
-            val args = Bundle()
-            fragment.arguments = args
+            instances.add(fragment)
             return fragment
+        }
+
+        fun syncDbData() {
+            instances.forEach {
+
+            }
         }
     }
 }

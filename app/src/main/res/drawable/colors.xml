@@ -3,7 +3,7 @@
     <!--background for website item card-->
     <gradient
         android:angle="135"
-        android:endColor="#00897B"
-        android:startColor="#8E24AA"/>
+        android:endColor="#32CCAE"
+        android:startColor="#AE56CC"/>
     <corners android:radius="4dp"/>
 </shape>

@@ -47,8 +47,14 @@ class ArticlesFragment : Fragment() {
             adapter = ArticleRecyclerViewAdapter(articleList)
             view.adapter = adapter
             view.addOnItemTouchListener(RecyclerTouchListener(activity, view,
-                    ClickListener { _, position ->
-                        listener?.onListFragmentInteraction(adapter.getItem(position))
+                    object : ClickListener {
+                        override fun onClick(view: View?, position: Int) {
+                            listener?.onListFragmentInteraction(adapter.getItem(position))
+                        }
+
+                        override fun onLongClick(view: View?, position: Int) {
+                            // todo
+                        }
                     }))
         }
 

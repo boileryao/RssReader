@@ -19,7 +19,7 @@ class Article(feed: SyndEntry?) : Serializable {
     init {
         if (feed != null) {
             title = feed.title
-            description = feed.description.value.replace("<img.+?>".toRegex(), "")
+            description = (feed.description?.value ?: "").replace("<img.+?>".toRegex(), "")
             url = feed.link
             author =
                     if (feed.authors != null && feed.authors.size > 0) feed.authors[0].name

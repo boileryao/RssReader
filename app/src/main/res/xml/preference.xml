@@ -2,24 +2,24 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="网络与更新">
         <CheckBoxPreference
-            android:id="@+id/wifi_only"
+            android:key="@string/config_wifi_only"
             android:title="仅WiFi"/>
         <CheckBoxPreference
             android:defaultValue="true"
-            android:id="@+id/refresh_all_on_startup"
+            android:key="@string/config_refresh_on_start"
             android:title="启动时自动刷新所有源"/>
     </PreferenceCategory>
 
     <PreferenceCategory
         android:title="添加源">
         <CheckBoxPreference
-            android:id="@+id/check_clipboard"
             android:defaultValue="true"
+            android:key="@string/config_check_clipboard"
             android:title="使用剪贴板的信息"/>
 
         <EditTextPreference
-            android:id="@+id/url_regex"
             android:defaultValue="https?://.*"
+            android:key="@string/config_url_regex"
             android:title="自定义匹配URL的正则表达式"/>
     </PreferenceCategory>
 
