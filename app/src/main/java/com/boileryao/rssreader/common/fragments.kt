@@ -1,4 +1,4 @@
-package com.boileryao.rssreader.util
+package com.boileryao.rssreader.common
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager

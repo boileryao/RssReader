@@ -1,4 +1,4 @@
-package com.boileryao.rssreader.subscribed
+package com.boileryao.rssreader.common
 
 import android.os.AsyncTask
 import android.util.Log

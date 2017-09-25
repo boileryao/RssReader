@@ -1,4 +1,4 @@
-package com.boileryao.rssreader.subscribed.websites
+package com.boileryao.rssreader.modules.sources
 
 import android.content.Context
 import android.os.Bundle
@@ -11,11 +11,13 @@ import android.view.ViewGroup
 import com.boileryao.rssreader.R
 import com.boileryao.rssreader.bean.Article
 import com.boileryao.rssreader.bean.Website
-import com.boileryao.rssreader.subscribed.NetworkTask
-import com.boileryao.rssreader.subscribed.OnResultListener
-import com.boileryao.rssreader.util.database.WebsitesDbHelper
-import com.boileryao.rssreader.util.recyclerview.ClickListener
-import com.boileryao.rssreader.util.recyclerview.RecyclerTouchListener
+import com.boileryao.rssreader.common.NetworkTask
+import com.boileryao.rssreader.common.OnResultListener
+import com.boileryao.rssreader.common.database.WebsitesDbHelper
+import com.boileryao.rssreader.common.recyclerview.ClickListener
+import com.boileryao.rssreader.common.recyclerview.RecyclerTouchListener
+import com.boileryao.rssreader.common.widgets.PopupMenu
+import com.boileryao.rssreader.common.widgets.SourceInfoDialog
 
 /**
  * A fragment representing a list of Items.
@@ -46,7 +48,10 @@ class SubscribedFragment : Fragment() {
         NetworkTask().execute(websites, object : OnResultListener {
             override fun action(data: Map<Website, List<Article>>?) {
                 adapter.load(data)
-                // todo notify db
+                data?.keys?.forEach {
+                    // sync requested data with db
+                    WebsitesDbHelper.getInstance(this@SubscribedFragment.context).update(it)
+                }
             }
         })
 
@@ -68,7 +73,10 @@ class SubscribedFragment : Fragment() {
                         }
 
                         override fun onLongClick(view: View?, position: Int) {
-                            // todo
+                            val website = adapter.getItem(position).first
+                            PopupMenu(this@SubscribedFragment.context).addEntries("编辑" to {
+                                SourceInfoDialog.show(this@SubscribedFragment.activity, website)
+                            }).show()
                         }
                     }))
         }

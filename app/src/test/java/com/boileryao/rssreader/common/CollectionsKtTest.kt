@@ -1,4 +1,4 @@
-package com.boileryao.rssreader.util
+package com.boileryao.rssreader.common
 
 import org.junit.Assert
 import org.junit.Test

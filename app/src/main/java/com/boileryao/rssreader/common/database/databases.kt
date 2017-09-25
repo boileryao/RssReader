@@ -1,4 +1,4 @@
-package com.boileryao.rssreader.util.database
+package com.boileryao.rssreader.common.database
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
@@ -63,7 +63,8 @@ class WebsitesDbHelper(val context: Context) {
     fun insert(website: Website): Boolean {
         val value = website.toContentValue()
         return try {
-            sqliteHelper.writableDatabase.insert(TABLE_NAME, "", value)
+            val db = sqliteHelper.writableDatabase
+            db.insert(TABLE_NAME, "", value)
             true
         } catch (e: Exception) {
             Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
@@ -72,7 +73,11 @@ class WebsitesDbHelper(val context: Context) {
     }
 
     fun update(website: Website) {
-
+        val db = sqliteHelper.writableDatabase
+        db.execSQL("UPDATE $TABLE_NAME SET " +
+                "$COL_TITLE = '${website.title}', " +
+                "$COL_DESCRIPTION = '${website.description}' " +
+                "WHERE $COL_URL = '${website.url}'")
     }
 
     private fun isEmpty(): Boolean {

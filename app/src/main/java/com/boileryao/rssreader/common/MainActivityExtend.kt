@@ -1,4 +1,4 @@
-package com.boileryao.rssreader.util
+package com.boileryao.rssreader.common
 
 import android.content.Intent
 import android.text.Editable
@@ -8,7 +8,7 @@ import android.view.MenuItem
 import com.boileryao.rssreader.MainActivity
 import com.boileryao.rssreader.R
 import com.boileryao.rssreader.SettingsActivity
-import com.boileryao.rssreader.subscribed.websites.AddSourceDialog
+import com.boileryao.rssreader.common.widgets.SourceInfoDialog
 
 /**
  * Created by boileryao on 8/30/2017.
@@ -18,7 +18,7 @@ import com.boileryao.rssreader.subscribed.websites.AddSourceDialog
 fun MainActivity.handleMenuItemClick(item: MenuItem): Boolean {
     when (item.itemId) {
         R.id.nav_add -> {
-            AddSourceDialog.show(this)
+            SourceInfoDialog.show(this)
             return false
         }
         R.id.nav_collection -> {

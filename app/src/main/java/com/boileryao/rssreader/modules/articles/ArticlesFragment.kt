@@ -1,4 +1,4 @@
-package com.boileryao.rssreader.subscribed.articles
+package com.boileryao.rssreader.modules.articles
 
 import android.content.Context
 import android.net.Uri
@@ -12,8 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.boileryao.rssreader.R
 import com.boileryao.rssreader.bean.Article
-import com.boileryao.rssreader.util.recyclerview.ClickListener
-import com.boileryao.rssreader.util.recyclerview.RecyclerTouchListener
+import com.boileryao.rssreader.common.recyclerview.ClickListener
+import com.boileryao.rssreader.common.recyclerview.RecyclerTouchListener
 
 /**
  * Mandatory empty constructor for the fragment manager to instantiate the

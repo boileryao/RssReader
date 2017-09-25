@@ -1,4 +1,4 @@
-package com.boileryao.rssreader.util.recyclerview;
+package com.boileryao.rssreader.common.recyclerview;
 
 import android.view.View;
 

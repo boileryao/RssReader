@@ -7,18 +7,18 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
+import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import com.boileryao.rssreader.bean.Article
 import com.boileryao.rssreader.bean.Website
-import com.boileryao.rssreader.subscribed.articles.ArticlesFragment
-import com.boileryao.rssreader.subscribed.websites.AddSourceDialog
-import com.boileryao.rssreader.subscribed.websites.SubscribedFragment
-import com.boileryao.rssreader.util.handleMenuItemClick
-import com.boileryao.rssreader.util.replaceMainFragmentTo
+import com.boileryao.rssreader.modules.articles.ArticlesFragment
+import com.boileryao.rssreader.common.widgets.SourceInfoDialog
+import com.boileryao.rssreader.modules.sources.SubscribedFragment
+import com.boileryao.rssreader.common.handleMenuItemClick
+import com.boileryao.rssreader.common.replaceMainFragmentTo
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import java.io.Serializable
@@ -42,7 +42,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(findViewById<View>(R.id.toolbar) as Toolbar)
+        supportActionBar!!.setTitle(R.string.app_name)
 
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -51,7 +52,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
 
         val fab = findViewById<View>(R.id.fab) as FloatingActionButton
-        fab.setOnClickListener { AddSourceDialog.show(this) }
+        fab.setOnClickListener { SourceInfoDialog.show(this) }
 
         // prepare Subscribed Websites Fragment
         val subscribedFragment = SubscribedFragment.newInstance()
@@ -62,7 +63,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     var lastBackPress = 0L
     override fun onBackPressed() {
-        Log.d(TAG, supportFragmentManager.backStackEntryCount.toString())
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)  // dismiss draw
         } else if (supportFragmentManager.backStackEntryCount > 0) {

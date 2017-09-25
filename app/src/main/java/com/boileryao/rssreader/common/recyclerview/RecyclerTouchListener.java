@@ -1,7 +1,8 @@
-package com.boileryao.rssreader.util.recyclerview;
+package com.boileryao.rssreader.common.recyclerview;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,6 +30,7 @@ public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
             public void onLongPress(MotionEvent e) {
                 View child = recycleView.findChildViewUnder(e.getX(), e.getY());
                 if (child != null && clicklistener != null) {
+                    Log.d(this.getClass().getName(), "onLongPress: " + e);
                     clicklistener.onLongClick(child, recycleView.getChildAdapterPosition(child));
                 }
             }

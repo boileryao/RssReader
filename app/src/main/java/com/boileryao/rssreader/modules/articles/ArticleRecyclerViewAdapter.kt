@@ -1,4 +1,4 @@
-package com.boileryao.rssreader.subscribed.websites
+package com.boileryao.rssreader.modules.articles
 
 import android.support.v7.widget.RecyclerView
 import android.text.Html
@@ -8,57 +8,38 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.boileryao.rssreader.R
 import com.boileryao.rssreader.bean.Article
-import com.boileryao.rssreader.bean.Website
-import com.boileryao.rssreader.subscribed.websites.SubscribedFragment.OnWebsiteListInteraction
 
 /**
  * [RecyclerView.Adapter] that can display a [Article] and makes a call to the
- * specified [OnWebsiteListInteraction].
+ * specified OnWebsiteListInteraction.
  */
-class WebsiteRecyclerViewAdapter(private val values: MutableMap<Website, List<Article>>)
-    : RecyclerView.Adapter<WebsiteRecyclerViewAdapter.ViewHolder>() {
+class ArticleRecyclerViewAdapter(private val values: MutableList<Article>)
+    : RecyclerView.Adapter<ArticleRecyclerViewAdapter.ViewHolder>() {
 
-    fun load(data: Map<Website, List<Article>>?) {
+    fun load(data: List<Article>?) {
         if (data == null || data.isEmpty()) {
             return
         }
-        val filtered = values.filterKeys { !data.contains(it.url) }
         values.clear()
-        values.putAll(filtered)
-        values.putAll(data)
+        values.addAll(data)
         notifyDataSetChanged()
     }
 
-    private fun Map<Website, List<Article>>.contains(url: String): Boolean {
-        var contains = false
-        forEach {
-            if (it.key.url == url) {
-                contains = true
-            }
-        }
-        return contains
+    fun getItem(position: Int): Article {
+        return values[position]
     }
 
-
-    fun getItem(position: Int): Pair<Website, List<Article>?> {
-        val pos = position % values.size
-        for ((index, key) in values.keys.withIndex()) {
-            if (index == pos)
-                return key to values[key]
-        }
-        throw RuntimeException()  // This is NOT gonna to happen
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_website, parent, false)
+                .inflate(R.layout.item_article, parent, false)
         view.isClickable = true
         view.isFocusable = true
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values.keys.elementAt(position)
+        val item = values[position]
 
         holder.item = item
         holder.title.text = item.title
@@ -74,7 +55,7 @@ class WebsiteRecyclerViewAdapter(private val values: MutableMap<Website, List<Ar
         val title: TextView
         val description: TextView
         val url: TextView
-        var item: Website? = null
+        var item: Article? = null
 
         init {
             title = view.findViewById<View>(R.id.title) as TextView
