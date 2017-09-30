@@ -37,11 +37,12 @@ class SettingsActivity : Activity() {
         val CHECK_CLIPS = "check_clipboard"
         val MATCHED_REGEX = "url_regex"
     }
-}
 
-class RssPreferenceFragment : PreferenceFragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        addPreferencesFromResource(R.xml.preference)
+    class RssPreferenceFragment : PreferenceFragment() {
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            addPreferencesFromResource(R.xml.preference)
+        }
     }
 }
+

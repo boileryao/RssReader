@@ -45,15 +45,15 @@ class SubscribedFragment : Fragment() {
         syncWithDatabase()
 
         // request more info using network
-        NetworkTask().execute(websites, object : OnResultListener {
-            override fun action(data: Map<Website, List<Article>>?) {
-                adapter.load(data)
-                data?.keys?.forEach {
+        websites.forEach {
+            NetworkTask().execute(it, object : OnResultListener {
+                override fun action(data: Pair<Website, List<Article>>) {
+                    adapter.load(data)
                     // sync requested data with db
-                    WebsitesDbHelper.getInstance(this@SubscribedFragment.context).update(it)
+                    WebsitesDbHelper.getInstance(this@SubscribedFragment.context).update(data.first)
                 }
-            }
-        })
+            })
+        }
 
     }
 

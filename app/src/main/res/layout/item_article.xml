@@ -7,15 +7,14 @@
                                     android:layout_margin="4dp"
                                     android:clickable="true"
                                     android:focusable="true"
-                                    app:cardBackgroundColor="#00ACC1"
                                     app:cardCornerRadius="4dp"
+                                    android:elevation="16dp"
                                     app:cardPreventCornerOverlap="true">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/colors"
         android:clickable="true"
         android:focusable="true"
         android:padding="12dp">
@@ -45,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/description"
             android:maxLines="1"
-            android:textSize="10sp"
+            android:textSize="12sp"
             android:typeface="sans"
             tools:text="http://blog.boileryao.com/atom.xml"/>
     </RelativeLayout>

@@ -29,6 +29,10 @@ class WebsiteRecyclerViewAdapter(private val values: MutableMap<Website, List<Ar
         notifyDataSetChanged()
     }
 
+    fun load(data: Pair<Website, List<Article>>) {
+        load(mapOf(data))
+    }
+
     private fun Map<Website, List<Article>>.contains(url: String): Boolean {
         var contains = false
         forEach {

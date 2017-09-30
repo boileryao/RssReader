@@ -7,20 +7,17 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import com.boileryao.rssreader.bean.Article
 import com.boileryao.rssreader.bean.Website
-import com.boileryao.rssreader.modules.articles.ArticlesFragment
-import com.boileryao.rssreader.common.widgets.SourceInfoDialog
-import com.boileryao.rssreader.modules.sources.SubscribedFragment
 import com.boileryao.rssreader.common.handleMenuItemClick
-import com.boileryao.rssreader.common.replaceMainFragmentTo
+import com.boileryao.rssreader.common.widgets.SourceInfoDialog
+import com.boileryao.rssreader.modules.articles.ArticlesFragment
+import com.boileryao.rssreader.modules.sources.SubscribedFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
 import java.io.Serializable
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
@@ -31,22 +28,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (item.second == null) {
             return
         }
-        // prepare Website Articles Fragment
-        val articlesFragment = ArticlesFragment.newInstance()
-        articlesFragment.arguments
-                .putSerializable(ArticlesFragment.ARG_ARTICLE_LIST, item.second as Serializable)
-        supportFragmentManager replaceMainFragmentTo articlesFragment
+
+        val openList = Intent(this, ArticleListActivity::class.java)
+        openList.putExtra(ArticleListActivity.ARG_TITLE, item.first.title)
+        openList.putExtra(ArticlesFragment.ARG_ARTICLE_LIST, item.second as Serializable)
+        startActivity(openList)
     }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(findViewById<View>(R.id.toolbar) as Toolbar)
-        supportActionBar!!.setTitle(R.string.app_name)
+        setSupportActionBar(findViewById(R.id.toolbar))
 
-        val toggle = ActionBarDrawerToggle(
-                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        val toggle = ActionBarDrawerToggle(this, drawer_layout, findViewById(R.id.toolbar)
+                , R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
         nav_view.setNavigationItemSelectedListener(this)

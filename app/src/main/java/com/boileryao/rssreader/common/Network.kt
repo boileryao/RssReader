@@ -13,38 +13,33 @@ import java.net.URL
  * Class: Network
  */
 
-class NetworkTask : AsyncTask<Any, Void, Map<Website, List<Article>>>() {
+class NetworkTask : AsyncTask<Any, Void, Pair<Website, List<Article>>>() {
     private lateinit var listener: OnResultListener
-    override fun doInBackground(vararg params: Any?): Map<Website, List<Article>>? {
-        val websites = params[0] as List<*>
+    override fun doInBackground(vararg params: Any?): Pair<Website, List<Article>>? {
+        val website = params[0] as Website
         listener = params[1] as OnResultListener
-        val result = mutableMapOf<Website, List<Article>>()
 
-        websites.forEach {
-            try {
-                val input = SyndFeedInput()
-                val url = URL((it as Website).url)
-                val feed = input.build(XmlReader(url))
-                val website = Website(feed)
+        try {
+            val input = SyndFeedInput()
+            val url = URL(website.url)
+            val feed = input.build(XmlReader(url))
+            val newWebsite = Website(feed)
+            newWebsite.url = website.url
 
-                website.url = it.url
-                result.put(website, feed.entries.map(::Article))
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+            return newWebsite to feed.entries.map(::Article)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
 
-        return result
+        return website to listOf()
     }
 
-    override fun onPostExecute(result: Map<Website, List<Article>>?) {
-        result?.forEach {
-            Log.d("TAG", "${it.key} -> ${it.value.size}")
-        }
+    override fun onPostExecute(result: Pair<Website, List<Article>>) {
+        Log.d("TAG", "Fetching: ${result.first}, Item Count: ${result.second.size}")
         listener.action(result)
     }
 }
 
 interface OnResultListener {
-    fun action(data: Map<Website, List<Article>>?)
+    fun action(data: Pair<Website, List<Article>>)
 }
