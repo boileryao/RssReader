@@ -46,6 +46,10 @@ class Website(entry: SyndFeed?) : Serializable {
         return url == (other as Website).url
     }
 
+    override fun hashCode(): Int {
+        return url.hashCode()
+    }
+
     companion object {
         val unknown = "Unknown"
     }

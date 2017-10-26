@@ -14,6 +14,7 @@ import com.boileryao.rssreader.SettingsActivity
 import com.boileryao.rssreader.bean.Website
 import com.boileryao.rssreader.common.ValidateTextWatcher
 import com.boileryao.rssreader.common.database.WebsitesDbHelper
+import com.boileryao.rssreader.modules.sources.SubscribedFragment
 import java.net.URL
 
 /**
@@ -32,9 +33,10 @@ class SourceInfoDialog {
 
             // compose dialog
             var success = false
+            val isEditMode = urlEditText.editableText.isEmpty()
             val dialog = AlertDialog.Builder(activity)
                     .setView(view)
-                    .setPositiveButton("添加", { _, _ ->
+                    .setPositiveButton("OK", { _, _ ->
                         val website = Website(titleEditText.text.toString()
                                 , descriptionEditText.text.toString()
                                 , urlEditText.text.toString())
@@ -42,10 +44,18 @@ class SourceInfoDialog {
                             tryComplete(website)
                             URL(website.url)  // Check URL
                             // fixme, insert is async
-                            success = WebsitesDbHelper.getInstance(activity).insert(website)
+                            val db = WebsitesDbHelper.getInstance(activity)
+                            success =
+                                    if (isEditMode) {
+                                        db.insert(website)
+                                    }
+                                    else {
+                                        db.update(website)
+                                    }
                         } catch (ignored: Exception) {
                         }
-                        val msg = if (success) "添加成功" else "添加失败"
+                        val msg = if (success) "成功" else "失败"
+                        SubscribedFragment.syncDbData()
                         Toast.makeText(activity, msg, Toast.LENGTH_LONG).show()
                     })
                     .create()
@@ -91,7 +101,7 @@ class SourceInfoDialog {
             if (title.isEmpty()) return
 
             if (!website.url.startsWith("http")) {
-                website.url = title.prependIndent("http://")
+                website.url = website.url.prependIndent("http://")
             }
 
             if (website.description.isEmpty()) {

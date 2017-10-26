@@ -1,7 +1,6 @@
 package com.boileryao.rssreader.common
 
 import android.os.AsyncTask
-import android.util.Log
 import com.boileryao.rssreader.bean.Article
 import com.boileryao.rssreader.bean.Website
 import com.rometools.rome.io.SyndFeedInput
@@ -35,7 +34,7 @@ class NetworkTask : AsyncTask<Any, Void, Pair<Website, List<Article>>>() {
     }
 
     override fun onPostExecute(result: Pair<Website, List<Article>>) {
-        Log.d("TAG", "Fetching: ${result.first}, Item Count: ${result.second.size}")
+        Logger.debug("TAG", "Fetching: ${result.first}, Item Count: ${result.second.size}")
         listener.action(result)
     }
 }

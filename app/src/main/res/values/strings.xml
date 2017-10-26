@@ -18,10 +18,11 @@
     <string name="hint_rss_url">RSS地址 (eg. http://blog.boileryao.com/atom.xml)</string>
     <string name="hint_rss_title">标题 (eg. 奔跑的大锅炉)</string>
     <string name="hint_rss_description">描述 (可选)</string>
-    <string name="hint_add_rss_source">添加一个源到收藏</string>
     <string name="settings">设置</string>
     <string name="config_url_regex">url_regex</string>
     <string name="config_check_clipboard">check_clipboard</string>
     <string name="config_refresh_on_start">refresh_all_on_startup</string>
     <string name="config_wifi_only">wifi_only</string>
+    <string name="delete">删除</string>
+    <string name="edit">编辑</string>
 </resources>

@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.boileryao.rssreader.R
 import com.boileryao.rssreader.bean.Article
 import com.boileryao.rssreader.bean.Website
+import com.boileryao.rssreader.common.Logger
 import com.boileryao.rssreader.modules.sources.SubscribedFragment.OnWebsiteListInteraction
 
 /**
@@ -20,17 +21,18 @@ class WebsiteRecyclerViewAdapter(private val values: MutableMap<Website, List<Ar
 
     fun load(data: Map<Website, List<Article>>?) {
         if (data == null || data.isEmpty()) {
+            Logger.error(msg = "Try to load an empty website set")
             return
         }
-        val filtered = values.filterKeys { !data.contains(it.url) }
+        Logger.debug("RvSrc", data.toString())
         values.clear()
-        values.putAll(filtered)
         values.putAll(data)
         notifyDataSetChanged()
     }
 
     fun load(data: Pair<Website, List<Article>>) {
-        load(mapOf(data))
+        values.put(data.first, data.second)
+        notifyDataSetChanged()
     }
 
     private fun Map<Website, List<Article>>.contains(url: String): Boolean {
